@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Genre;
+use App\Enum\AgeRating;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +27,8 @@ class ApiController extends AbstractController
         foreach ($genres as $genre) {
             $info['genre'][$genre->getId()] = $genre->getName();
         }
+
+        $info['age_rating'] = AgeRating::cases();
 
         return $info;
     }

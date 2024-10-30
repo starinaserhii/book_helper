@@ -64,9 +64,21 @@ when@dev:
                         type: string
                       genre:
                         type: integer
+                      cost:
+                        type: float
+                      age_rating:
+                        type: string
+                        enum:
+                          - 0
+                          - 6
+                          - 12
+                          - 16
+                          - 18
                     required:
                       - name
                       - genre
+                      - age_rating
+                      - cost
             responses:
               200:
                 description: 'Successful operation'

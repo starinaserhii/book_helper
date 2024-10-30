@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\Genre;
+use App\Enum\AgeRating;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,7 +29,13 @@ class BookController extends AbstractController
             ]);
         }
 
-        $entityManager->persist(new Book($params['name'], $genre));
+        $entityManager->persist(new Book(
+            $params['name'],
+            (float)$params['cost'],
+            $genre,
+            AgeRating::from($params['age_rating'])
+            )
+        );
         $entityManager->flush();
 
 
