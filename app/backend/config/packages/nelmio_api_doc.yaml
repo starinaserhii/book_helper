@@ -15,9 +15,32 @@ when@dev:
         /api/get_info:
           get:
             tags:
-              - Base
+              - Info
             summary: 'Get info'
             description: 'Get info'
+            responses:
+              200:
+                description: 'Successful operation'
+              400:
+                description: 'Invalid tag value'
+
+        /api/genre/add:
+          post:
+            tags:
+              - Api
+            summary: 'Add genre'
+            description: 'Add genre'
+            requestBody:
+              required: true
+              content:
+                application/x-www-form-urlencoded:
+                  schema:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                    required:
+                      - name
             responses:
               200:
                 description: 'Successful operation'
