@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Author;
+use App\Entity\Genre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Author>
+ * @extends ServiceEntityRepository<Genre>
  */
-class AuthorRepository extends ServiceEntityRepository
+class GenreRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Author::class);
+        parent::__construct($registry, Genre::class);
     }
 
     //    /**
-    //     * @return Author[] Returns an array of Author objects
+    //     * @return Genre[] Returns an array of Genre objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
+    //        return $this->createQueryBuilder('g')
+    //            ->andWhere('g.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
+    //            ->orderBy('g.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Author
+    //    public function findOneBySomeField($value): ?Genre
     //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
+    //        return $this->createQueryBuilder('g')
+    //            ->andWhere('g.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

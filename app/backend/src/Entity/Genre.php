@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
+use App\Repository\GenreRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AuthorRepository::class)]
-class Author
+#[ORM\Entity(repositoryClass: GenreRepository::class)]
+class Genre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

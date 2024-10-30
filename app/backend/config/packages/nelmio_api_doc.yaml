@@ -1,0 +1,25 @@
+when@dev:
+  nelmio_api_doc:
+    areas: # to filter documented areas
+      path_patterns:
+        - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+      host_patterns: # document only routes with a host of the form api.*
+        - ^api\.
+
+    documentation:
+      info:
+        title: BookHelper API
+        description: BookHelper API
+        version: 1.0.0
+      paths:
+        /api/get_info:
+          get:
+            tags:
+              - Base
+            summary: 'Get info'
+            description: 'Get info'
+            responses:
+              200:
+                description: 'Successful operation'
+              400:
+                description: 'Invalid tag value'
