@@ -24,7 +24,7 @@ when@dev:
               400:
                 description: 'Invalid tag value'
 
-        /api/genre/add:
+        /api/genre/create:
           post:
             tags:
               - Api
@@ -41,6 +41,32 @@ when@dev:
                         type: string
                     required:
                       - name
+            responses:
+              200:
+                description: 'Successful operation'
+              400:
+                description: 'Invalid tag value'
+
+        /api/book/create:
+          post:
+            tags:
+              - Api
+            summary: 'Add book'
+            description: 'Add book'
+            requestBody:
+              required: true
+              content:
+                application/x-www-form-urlencoded:
+                  schema:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      genre:
+                        type: integer
+                    required:
+                      - name
+                      - genre
             responses:
               200:
                 description: 'Successful operation'
