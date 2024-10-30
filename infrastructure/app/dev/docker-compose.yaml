@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  book-helper:
+    image: base_book-helper
+    container_name: study_book-helper
+    extends:
+      file: ../base/docker-compose.yaml
+      service: book-helper
+    build:
+      context: ../../../
+      dockerfile: ./infrastructure/app/dev/Dockerfile
+    restart: always
+    ports:
+      - ${BH_HTTP_PORT_EXTERNAL}:80
+    volumes:
+      - ./../../../app/backend:/app
+      - "${BH_APACHE_LOGS_LOCATION}:/var/log/apache2"
+    networks:
+      - book-helper-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "900m"
+        max-file: "3"
+
+networks:
+  book-helper-network:
+    external: true

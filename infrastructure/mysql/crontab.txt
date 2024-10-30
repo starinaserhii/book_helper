@@ -1,0 +1,2 @@
+0 1 * * * source /root/mysql/.env && find $HREF_APP_MYSQL_BACKUP_STORAGE_PATH/* -mtime +8 -exec rm -rf {} \; 2> /dev/null
+20 0 * * * source .env && docker exec -it hreflang-mysql bash -c "mysqldump --socket=/var/run/mysqld/mysql.sock --user=root --password=$HREF_APP_MYSQL_ROOT_PASSWORD --quick --lock-tables=false --set-gtid-purged=OFF --no-tablespaces --single-transaction $HREF_APP_MYSQL_DATABASE" | gzip > $HREF_APP_MYSQL_BACKUP_STORAGE_PATH/${HREF_APP_MYSQL_DATABASE}_$(date +%Y-%m-%d).sql.gz

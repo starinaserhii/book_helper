@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  book-helper:
+#    platform: linux/amd64 # - for mac
+    image: base_book-helper
+    container_name: base_book-helper
+    build:
+      context: ../../../
+      dockerfile: ./infrastructure/app/base/Dockerfile
+      args:
+        APP_DEBUG: ${BH_APP_DEBUG:-true}
+        APP_ENV: ${BH_APP_ENV:-dev}
+        BH_APP_ENV: ${BH_APP_ENV:-dev}
+        BH_APP_DATABASE_URL: ${BH_APP_DATABASE_URL}
+    environment:
+      APP_DEBUG: ${BH_APP_DEBUG}
+      BH_APP_ENV: ${BH_APP_ENV}
+      BH_APP_NAME: ${BH_APP_NAME}
+      BH_APP_DATABASE_URL: ${BH_APP_DATABASE_URL}
+
+volumes:
+  book-helper-logs:
