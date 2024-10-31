@@ -27,6 +27,7 @@ class ApiController extends AbstractController
         foreach ($genres as $genre) {
             $info['genre'][$genre->getId()] = $genre->getName();
         }
+        // add min/max cost
 
         $info['age_rating'] = AgeRating::cases();
 
