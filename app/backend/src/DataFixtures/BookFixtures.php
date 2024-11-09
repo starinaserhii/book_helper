@@ -66,7 +66,7 @@ class BookFixtures extends Fixture
                         [
                             'book_name' => 'Месопотамія',
                             'book_cost' => 360,
-                            'book_age_rating' => AgeRating::Zero,
+                            'book_age_rating' => AgeRating::Six,
                             'book_img' => 'mes.jpg',
                             'book_lang' => 'Українська',
                             'book_page' => 456,
@@ -75,7 +75,7 @@ class BookFixtures extends Fixture
                         [
                             'book_name' => 'Гімн демократичної молоді',
                             'book_cost' => 270,
-                            'book_age_rating' => AgeRating::Zero,
+                            'book_age_rating' => AgeRating::Six,
                             'book_img' => 'gimn.jpg',
                             'book_lang' => 'Українська',
                             'book_page' => 240,
@@ -97,7 +97,7 @@ class BookFixtures extends Fixture
                     [
                         'book_name' => 'Білий попіл',
                         'book_cost' => 180,
-                        'book_age_rating' => AgeRating::Zero,
+                        'book_age_rating' => AgeRating::Six,
                         'book_img' => 'whitep.jpg',
                         'book_lang' => 'Українська',
                         'book_page' => 352,
@@ -106,7 +106,7 @@ class BookFixtures extends Fixture
                     [
                         'book_name' => 'Я бачу, Вас цікавить пітьма',
                         'book_cost' => 300,
-                        'book_age_rating' => AgeRating::Zero,
+                        'book_age_rating' => AgeRating::Six,
                         'book_img' => 'ya_bachu_vas_cikavytj_pitjma_cover_full.jpg',
                         'book_lang' => 'Українська',
                         'book_page' => 664,
@@ -126,7 +126,7 @@ class BookFixtures extends Fixture
                     [
                         'book_name' => 'The Black Feathers',
                         'book_cost' => 648,
-                        'book_age_rating' => AgeRating::Zero,
+                        'book_age_rating' => AgeRating::Six,
                         'book_img' => 'feathers.jpg',
                         'book_lang' => 'English',
                         'book_page' => 400,
@@ -148,14 +148,15 @@ class BookFixtures extends Fixture
         foreach ($books as $genreName => $authorInfo) {
             $genreEntity = new Genre($genreName);
             $manager->persist($genreEntity);
+            $manager->flush();
 
             foreach ($authorInfo as $authorName => $books) {
-
                 $authorEntity = $this->authorRepository->findOneBy(['name' => $authorName]);
 
-                if (empty($languageEntity)) {
+                if (empty($authorEntity)) {
                     $authorEntity = new Author($authorName);
                     $manager->persist($authorEntity);
+                    $manager->flush();
                 }
 
                 foreach ($books as $book) {
@@ -163,6 +164,8 @@ class BookFixtures extends Fixture
 
                     if (empty($languageEntity)) {
                         $languageEntity = new Language($book['book_lang']);
+                        $manager->persist($languageEntity);
+                        $manager->flush();
                     }
 
                     $bookEntity = new Book(
@@ -178,10 +181,9 @@ class BookFixtures extends Fixture
                         $book['book_year'],
                     );
                     $manager->persist($bookEntity);
+                    $manager->flush();
                 }
             }
         }
-
-        $manager->flush();
     }
 }

@@ -84,3 +84,25 @@ when@dev:
                 description: 'Successful operation'
               400:
                 description: 'Invalid tag value'
+
+        /api/get_books:
+          post:
+            tags:
+              - Api
+            summary: 'Get books'
+            description: 'Get books'
+            requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: string
+                    example: '{"author_id": 18, "genre_id": 11, "cost": {"min": 1, "max": 500}, "language_id": 49, "year": 2024, "age_rating": 6, "sort": "DESC", "number_of_page": {"min": 1, "max": 1000}}'
+
+            responses:
+              200:
+                description: 'Successful operation'
+              400:
+                description: 'Invalid tag value'
