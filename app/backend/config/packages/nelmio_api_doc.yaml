@@ -62,23 +62,37 @@ when@dev:
                     properties:
                       name:
                         type: string
-                      genre:
+                      genre_id:
                         type: integer
                       cost:
                         type: float
                       age_rating:
-                        type: string
+                        type: integer
                         enum:
-                          - 0
                           - 6
                           - 12
                           - 16
                           - 18
+                      language_id:
+                        type: integer
+                      author_id:
+                        type: integer
+                      year:
+                        type: integer
+                      rating:
+                        type: integer
+                      number_of_pages:
+                        type: integer
                     required:
                       - name
-                      - genre
+                      - genre_id
                       - age_rating
                       - cost
+                      - language_id
+                      - author_id
+                      - year
+                      - rating
+                      - number_of_pages
             responses:
               200:
                 description: 'Successful operation'

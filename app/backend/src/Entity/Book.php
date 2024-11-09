@@ -56,7 +56,7 @@ class Book
         float $cost,
         Genre $genre,
         AgeRating $ageRating,
-        string $img,
+        ?string $img,
         Author $author,
         Language $language,
         int $rating,
