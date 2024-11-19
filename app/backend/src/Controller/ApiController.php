@@ -86,13 +86,18 @@ class ApiController extends AbstractController
         /** @var Book $book */
         foreach ($result as $book) {
             $authors = [];
+            $genres = [];
 
             foreach ($book->getAuthors() as $author) {
                 $authors[] = $author->getName();
             }
 
+            foreach ($book->getGenre() as $genre) {
+                $genres[] = $genre->getName();
+            }
+
             $searchIds[] = $book->getId();
-            $info['search'][] = $this->parseInfo($book, $authors);
+            $info['search'][] = $this->parseInfo($book, $authors, $genres);
         }
 
         $resultRecommend = $repositoryBook->findRecommend($searchIds, $params);
@@ -100,18 +105,23 @@ class ApiController extends AbstractController
         /** @var Book $book */
         foreach ($resultRecommend as $book) {
             $authors = [];
+            $genres = [];
 
             foreach ($book->getAuthors() as $author) {
                 $authors[] = $author->getName();
             }
 
-            $info['recommend'][] = $this->parseInfo($book, $authors);
+            foreach ($book->getGenre() as $genre) {
+                $genres[] = $genre->getName();
+            }
+
+            $info['recommend'][] = $this->parseInfo($book, $authors, $genres);
         }
 
         return $info;
     }
 
-    private function parseInfo(Book $book, array $authors): array
+    private function parseInfo(Book $book, array $authors, array $genres): array
     {
         return [
             'id' => $book->getId(),
@@ -122,7 +132,7 @@ class ApiController extends AbstractController
             'cost' => $book->getCost(),
             'number_of_page' => $book->getNumberOfPages(),
             'year' => $book->getYear(),
-            'genre' => $book->getGenre()->getName(),
+            'genres' => $genres,
             'img' => 'public/'.$book->getImg(),
             'authors' => $authors,
         ];

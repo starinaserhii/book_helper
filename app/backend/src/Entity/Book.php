@@ -19,10 +19,6 @@ class Book
     #[ORM\Column(length: 255)]
     private string $name;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Genre $genre;
-
     #[ORM\Column]
     private float $cost;
 
@@ -51,6 +47,12 @@ class Book
     #[ORM\Column]
     private int $year;
 
+    /**
+     * @var Collection<int, Genre>
+     */
+    #[ORM\ManyToMany(targetEntity: Genre::class)]
+    private Collection $genre;
+
     public function __construct(
         string $name,
         float $cost,
@@ -65,7 +67,8 @@ class Book
     )
     {
         $this->name = $name;
-        $this->genre = $genre;
+        $this->genre = new ArrayCollection();
+        $this->genre->add($genre);
         $this->cost = $cost;
         $this->ageRating = $ageRating;
         $this->authors = new ArrayCollection();
@@ -85,11 +88,6 @@ class Book
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public function getGenre(): ?Genre
-    {
-        return $this->genre;
     }
 
     public function getCost(): ?float
@@ -179,5 +177,29 @@ class Book
     public function getYear(): ?int
     {
         return $this->year;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenre(): Collection
+    {
+        return $this->genre;
+    }
+
+    public function addGenre(Genre $genre): static
+    {
+        if (!$this->genre->contains($genre)) {
+            $this->genre->add($genre);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): static
+    {
+        $this->genre->removeElement($genre);
+
+        return $this;
     }
 }

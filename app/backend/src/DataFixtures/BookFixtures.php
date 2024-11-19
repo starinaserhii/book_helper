@@ -8,6 +8,7 @@ use App\Entity\Genre;
 use App\Entity\Language;
 use App\Enum\AgeRating;
 use App\Repository\AuthorRepository;
+use App\Repository\GenreRepository;
 use App\Repository\LanguageRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -16,13 +17,64 @@ class BookFixtures extends Fixture
 {
     public function __construct(
         private readonly LanguageRepository $languageRepository,
-        private readonly AuthorRepository $authorRepository
+        private readonly AuthorRepository $authorRepository,
+        private readonly GenreRepository $genreRepository
     ) {
     }
 
     public function load(ObjectManager $manager): void
     {
-        $books = [
+        $books = $this->fixtureInfo();
+
+        foreach ($books as $genreName => $authorInfo) {
+            $genreEntity = $this->genreRepository->findOneBy(['name' => $genreName]);
+
+            if (empty($genreEntity)) {
+                $genreEntity = new Genre($genreName);
+                $manager->persist($genreEntity);
+                $manager->flush();
+            }
+
+            foreach ($authorInfo as $authorName => $books) {
+                $authorEntity = $this->authorRepository->findOneBy(['name' => $authorName]);
+
+                if (empty($authorEntity)) {
+                    $authorEntity = new Author($authorName);
+                    $manager->persist($authorEntity);
+                    $manager->flush();
+                }
+
+                foreach ($books as $book) {
+                    $languageEntity = $this->languageRepository->findOneBy(['name' => $book['book_lang']]);
+
+                    if (empty($languageEntity)) {
+                        $languageEntity = new Language($book['book_lang']);
+                        $manager->persist($languageEntity);
+                        $manager->flush();
+                    }
+
+                    $bookEntity = new Book(
+                        $book['book_name'],
+                        $book['book_cost'],
+                        $genreEntity,
+                        $book['book_age_rating'],
+                        $book['book_img'],
+                        $authorEntity,
+                        $languageEntity,
+                        rand(2, 5),
+                        $book['book_page'],
+                        $book['book_year'],
+                    );
+                    $manager->persist($bookEntity);
+                    $manager->flush();
+                }
+            }
+        }
+    }
+
+    private function fixtureInfo(): array
+    {
+        return [
             'Проза' =>
                 [
                     'Шикін Павло' => [
@@ -327,46 +379,5 @@ class BookFixtures extends Fixture
                 ],
             ]
         ];
-
-        foreach ($books as $genreName => $authorInfo) {
-            $genreEntity = new Genre($genreName);
-            $manager->persist($genreEntity);
-            $manager->flush();
-
-            foreach ($authorInfo as $authorName => $books) {
-                $authorEntity = $this->authorRepository->findOneBy(['name' => $authorName]);
-
-                if (empty($authorEntity)) {
-                    $authorEntity = new Author($authorName);
-                    $manager->persist($authorEntity);
-                    $manager->flush();
-                }
-
-                foreach ($books as $book) {
-                    $languageEntity = $this->languageRepository->findOneBy(['name' => $book['book_lang']]);
-
-                    if (empty($languageEntity)) {
-                        $languageEntity = new Language($book['book_lang']);
-                        $manager->persist($languageEntity);
-                        $manager->flush();
-                    }
-
-                    $bookEntity = new Book(
-                        $book['book_name'],
-                        $book['book_cost'],
-                        $genreEntity,
-                        $book['book_age_rating'],
-                        $book['book_img'],
-                        $authorEntity,
-                        $languageEntity,
-                        rand(2, 5),
-                        $book['book_page'],
-                        $book['book_year'],
-                    );
-                    $manager->persist($bookEntity);
-                    $manager->flush();
-                }
-            }
-        }
     }
 }

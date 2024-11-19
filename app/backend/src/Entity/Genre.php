@@ -18,7 +18,6 @@ class Genre
     #[ORM\Column(length: 255)]
     private string $name;
 
-
     public function __construct(string $name)
     {
        $this->name = $name;
