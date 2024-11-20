@@ -133,7 +133,7 @@ class ApiController extends AbstractController
             'number_of_page' => $book->getNumberOfPages(),
             'year' => $book->getYear(),
             'genres' => $genres,
-            'img' => 'public/'.$book->getImg(),
+            'img' => 'images/'.$book->getImg(),
             'authors' => $authors,
         ];
     }

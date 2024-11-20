@@ -9,7 +9,7 @@ services:
       service: book-helper
     build:
       context: ../../../
-      dockerfile: ./infrastructure/app/dev/Dockerfile
+      dockerfile: ./infrastructure/app/book_dev/Dockerfile
     restart: always
     ports:
       - ${BH_HTTP_PORT_EXTERNAL}:80
